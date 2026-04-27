@@ -3,106 +3,457 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ezequiel Dezalot — Consultor en Automatización de Negocios</title>
+  <title>Ezequiel Dezalot — Automatización de Negocios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul-oscuro: #0A1628;
+      --azul-medio: #0F2444;
+      --azul-acento: #1A56DB;
+      --azul-claro: #3B82F6;
+      --blanco: #FFFFFF;
+      --gris-claro: #94A3B8;
+      --gris-linea: #1E3A5F;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #0B3A78;
-      color: #ffffff;
-    }
-    section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    h1, h2 {
-      margin-bottom: 20px;
-    }
-    p {
+      font-family: 'Inter', sans-serif;
+      background: var(--azul-oscuro);
+      color: var(--blanco);
       line-height: 1.6;
-      color: #e0e0e0;
     }
-    .btn {
-      display: inline-block;
-      padding: 15px 25px;
-      background: #3F7FE0;
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gris-linea);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+    .nav-logo span { color: var(--azul-claro); }
+    .nav-cta {
+      padding: 10px 22px;
+      background: var(--azul-acento);
       color: white;
       text-decoration: none;
-      border-radius: 5px;
-      margin-top: 20px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s;
     }
-    .card {
-      background: #1E5BB8;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+    .nav-cta:hover { background: var(--azul-claro); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 40px 80px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .hero-content { max-width: 700px; }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(26, 86, 219, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--azul-claro);
+      font-weight: 500;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    .hero h1 span { color: var(--azul-claro); }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--gris-claro);
+      margin-bottom: 40px;
+      max-width: 580px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 14px 28px;
+      background: var(--azul-acento);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: var(--azul-claro); transform: translateY(-1px); }
+    .btn-secondary {
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--gris-claro);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border: 1px solid var(--gris-linea);
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--azul-claro); color: white; }
+
+    /* STATS */
+    .stats {
+      border-top: 1px solid var(--gris-linea);
+      border-bottom: 1px solid var(--gris-linea);
+      padding: 50px 40px;
+    }
+    .stats-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--azul-claro);
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gris-claro);
+      margin-top: 4px;
+    }
+
+    /* SECCIONES */
+    .section {
+      padding: 90px 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--azul-claro);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--gris-claro);
+      font-size: 1rem;
+      max-width: 540px;
+      margin-bottom: 50px;
+    }
+
+    /* PROBLEMAS */
+    .problemas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .problema-card {
+      background: var(--azul-medio);
+      border: 1px solid var(--gris-linea);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .problema-card:hover { border-color: var(--azul-claro); }
+    .problema-icon {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+    }
+    .problema-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .problema-card p {
+      font-size: 0.9rem;
+      color: var(--gris-claro);
+    }
+
+    /* SERVICIOS */
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .servicio-card {
+      background: var(--azul-medio);
+      border: 1px solid var(--gris-linea);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .servicio-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--azul-acento);
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+    .servicio-card:hover::before { transform: scaleX(1); }
+    .servicio-card:hover { border-color: rgba(59, 130, 246, 0.3); transform: translateY(-2px); }
+    .servicio-num {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--azul-claro);
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .servicio-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .servicio-card p {
+      font-size: 0.9rem;
+      color: var(--gris-claro);
+    }
+
+    /* EXPERIENCIA */
+    .exp-box {
+      background: var(--azul-medio);
+      border: 1px solid var(--gris-linea);
+      border-radius: 16px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .exp-box h2 { font-size: 1.8rem; margin-bottom: 16px; }
+    .exp-box p { color: var(--gris-claro); margin-bottom: 24px; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag {
+      padding: 6px 14px;
+      background: rgba(26, 86, 219, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--azul-claro);
+    }
+    .exp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .exp-stat { text-align: center; padding: 24px; background: rgba(26, 86, 219, 0.1); border-radius: 10px; }
+    .exp-stat-num { font-size: 2rem; font-weight: 700; color: var(--azul-claro); }
+    .exp-stat-text { font-size: 0.85rem; color: var(--gris-claro); margin-top: 4px; }
+
+    /* CTA FINAL */
+    .cta-section {
+      padding: 90px 40px;
+      text-align: center;
+    }
+    .cta-box {
+      max-width: 700px;
+      margin: auto;
+      background: linear-gradient(135deg, #0F2444 0%, #1A3A6B 100%);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 20px;
+      padding: 64px 48px;
+    }
+    .cta-box h2 { font-size: 2rem; margin-bottom: 16px; }
+    .cta-box p { color: var(--gris-claro); margin-bottom: 36px; font-size: 1rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--gris-linea);
+      padding: 30px 40px;
+      text-align: center;
+      color: var(--gris-claro);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .stats { padding: 40px 20px; }
+      .section { padding: 60px 20px; }
+      .exp-box { grid-template-columns: 1fr; padding: 32px 24px; }
+      .cta-box { padding: 40px 24px; }
+      .cta-section { padding: 60px 20px; }
     }
   </style>
 </head>
 
 <body>
 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ezequiel <span>Dezalot</span></div>
+  <a class="nav-cta" href="https://wa.me/5493516300133">Contactar</a>
+</nav>
+
 <!-- HERO -->
-<section>
-  <h1>Consultor en automatización de negocios</h1>
-  <p>Ayudo a empresas a ordenar sus procesos, no perder clientes y crecer implementando sistemas que trabajan por vos.</p>
-  <a class="btn" href="https://wa.me/5493516300133">Agendar reunión</a>
-</section>
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Consultor en Automatización de Negocios</div>
+    <h1>Tu negocio puede funcionar <span>sin depender de vos</span> para todo</h1>
+    <p>Implemento sistemas y automatizaciones que ordenan tu operación, eliminan errores y te permiten escalar sin sumar personal.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://wa.me/5493516300133">
+        Agendar reunión →
+      </a>
+      <a class="btn-secondary" href="#servicios">Ver soluciones</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">+10</div>
+      <div class="stat-label">años de experiencia</div>
+    </div>
+    <div>
+      <div class="stat-num">+50</div>
+      <div class="stat-label">proyectos implementados</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">proyectos en producción</div>
+    </div>
+    <div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">sectores atendidos</div>
+    </div>
+  </div>
+</div>
 
 <!-- PROBLEMAS -->
-<section>
-  <h2>¿Te pasa esto?</h2>
-  <div class="card">
-    <p>Perdés clientes por no responder a tiempo.</p>
+<div class="section">
+  <div class="section-label">¿Te identificás?</div>
+  <h2>Los problemas que frenan tu crecimiento</h2>
+  <p class="section-sub">Si tu negocio depende de procesos manuales y personas clave, estás limitando tu capacidad de escalar.</p>
+  <div class="problemas-grid">
+    <div class="problema-card">
+      <div class="problema-icon">⏱</div>
+      <h3>Perdés clientes por no responder a tiempo</h3>
+      <p>Sin un sistema de seguimiento, los contactos se enfrían y la competencia los capta primero.</p>
+    </div>
+    <div class="problema-card">
+      <div class="problema-icon">🔄</div>
+      <h3>Todo pasa por vos</h3>
+      <p>Tu negocio no puede crecer si sos el cuello de botella de cada decisión y proceso operativo.</p>
+    </div>
+    <div class="problema-card">
+      <div class="problema-icon">📊</div>
+      <h3>No tenés visibilidad de lo que pasa</h3>
+      <p>Sin datos en tiempo real, tomás decisiones a ciegas o cuando ya es tarde para corregir.</p>
+    </div>
   </div>
-  <div class="card">
-    <p>Tu negocio depende de vos para todo.</p>
-  </div>
-  <div class="card">
-    <p>No tenés control claro de lo que pasa en tu operación.</p>
-  </div>
-</section>
-
-<!-- SOLUCION -->
-<section>
-  <h2>Qué hago</h2>
-  <p>Implemento sistemas y automatizaciones que ordenan tu negocio, mejoran la gestión y te permiten escalar sin depender de procesos manuales.</p>
-</section>
+</div>
 
 <!-- SERVICIOS -->
-<section>
-  <h2>Soluciones</h2>
-
-  <div class="card">
-    <h3>Sistema para no perder clientes</h3>
-    <p>Automatización de WhatsApp, seguimiento de contactos y organización de ventas.</p>
+<div class="section" id="servicios">
+  <div class="section-label">Soluciones</div>
+  <h2>Qué implemento en tu empresa</h2>
+  <p class="section-sub">Sistemas concretos que resuelven problemas reales. Sin promesas vagas.</p>
+  <div class="servicios-grid">
+    <div class="servicio-card">
+      <div class="servicio-num">01</div>
+      <h3>Sistema para no perder clientes</h3>
+      <p>Automatización de seguimiento, gestión de contactos y pipeline de ventas para que ninguna oportunidad se pierda.</p>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-num">02</div>
+      <h3>Control de operaciones</h3>
+      <p>Panel de control con reportes automáticos, gestión de tareas y personal para que tengas visibilidad total sin estar presente.</p>
+    </div>
+    <div class="servicio-card">
+      <div class="servicio-num">03</div>
+      <h3>Automatización de procesos</h3>
+      <p>Eliminación de tareas manuales y repetitivas que consumen tiempo de tu equipo sin generar valor real.</p>
+    </div>
   </div>
-
-  <div class="card">
-    <h3>Control de operaciones</h3>
-    <p>Gestión de personal, tareas y reportes automáticos para tener control total.</p>
-  </div>
-
-  <div class="card">
-    <h3>Automatización de procesos</h3>
-    <p>Digitalización de tareas repetitivas para ahorrar tiempo y evitar errores.</p>
-  </div>
-
-</section>
+</div>
 
 <!-- EXPERIENCIA -->
-<section>
-  <h2>Experiencia real</h2>
-  <p>Trabajo hace más de 10 años implementando soluciones tecnológicas en proyectos reales dentro de IBT, lo que me permite aplicar sistemas que funcionan en operaciones concretas.</p>
-</section>
+<div class="section">
+  <div class="exp-box">
+    <div>
+      <div class="section-label">Experiencia</div>
+      <h2>10 años aplicando tecnología en operaciones reales</h2>
+      <p>Mi trabajo en IBT — empresa de seguridad electrónica con proyectos en countries, fábricas, gobiernos y desarrollistas inmobiliarios — me dio una visión única: entiendo tanto los procesos operativos como la tecnología que los mejora.</p>
+      <div class="exp-tags">
+        <span class="tag">Seguridad electrónica</span>
+        <span class="tag">Proyectos industriales</span>
+        <span class="tag">Sector gobierno</span>
+        <span class="tag">Real estate</span>
+        <span class="tag">Automatización</span>
+      </div>
+    </div>
+    <div class="exp-stats">
+      <div class="exp-stat">
+        <div class="exp-stat-num">+30</div>
+        <div class="exp-stat-text">años de trayectoria del equipo</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">B2B</div>
+        <div class="exp-stat-text">exclusivo para empresas</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">360°</div>
+        <div class="exp-stat-text">diseño, implementación y soporte</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-num">IBT</div>
+        <div class="exp-stat-text">integrador oficial Hikvision</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- CTA FINAL -->
-<section>
-  <h2>Hablemos</h2>
-  <p>Si querés ordenar tu negocio y empezar a trabajar con sistemas que te hagan crecer, coordinemos una llamada.</p>
-  <a class="btn" href="https://wa.me/5493516300133">Escribime por WhatsApp</a>
-</section>
+<div class="cta-section">
+  <div class="cta-box">
+    <h2>¿Listo para ordenar tu negocio?</h2>
+    <p>Coordinemos una llamada de 30 minutos. Te cuento qué sistema necesitás y cuánto tiempo lleva implementarlo.</p>
+    <a class="btn-primary" style="justify-content: center; display: inline-flex;" href="https://wa.me/5493516300133">
+      Escribime por WhatsApp →
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Ezequiel Dezalot · Córdoba, Argentina</p>
+</footer>
 
 </body>
 </html>
