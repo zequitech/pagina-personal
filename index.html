@@ -40,29 +40,34 @@
     /* CURSOR */
     * { cursor: none !important; }
     #cursor {
-      position: fixed;
-      width: 12px; height: 12px;
-      background: var(--cyan);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
+      position: fixed; pointer-events: none; z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, opacity 0.2s;
-      mix-blend-mode: difference;
+      width: 24px; height: 24px;
     }
-    #cursor-ring {
-      position: fixed;
-      width: 36px; height: 36px;
-      border: 1px solid var(--cyan);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.12s ease, width 0.2s, height 0.2s;
-      opacity: 0.5;
+    #cursor::before, #cursor::after {
+      content: ''; position: absolute; background: var(--cyan);
+      transition: all 0.15s;
     }
-    #cursor.hover { width: 6px; height: 6px; }
-    #cursor-ring.hover { width: 56px; height: 56px; opacity: 0.8; }
+    #cursor::before { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+    #cursor::after  { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .cur-dot {
+      position: fixed; pointer-events: none; z-index: 9999;
+      width: 4px; height: 4px; background: var(--cyan); border-radius: 50%;
+      transform: translate(-50%,-50%);
+    }
+    .cur-corner {
+      position: fixed; pointer-events: none; z-index: 9998;
+      width: 18px; height: 18px;
+      border-color: var(--cyan); border-style: solid; border-width: 0;
+      transform: translate(-50%,-50%);
+      transition: width 0.2s, height 0.2s;
+    }
+    .cur-corner.tl { border-top-width: 2px; border-left-width: 2px; }
+    .cur-corner.tr { border-top-width: 2px; border-right-width: 2px; }
+    .cur-corner.bl { border-bottom-width: 2px; border-left-width: 2px; }
+    .cur-corner.br { border-bottom-width: 2px; border-right-width: 2px; }
+    .cur-corner.expand { width: 32px; height: 32px; }
+    #cursor-ring { display: none; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -292,38 +297,60 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* MAPA */
-    .map-section {
-      position: relative; z-index: 1;
-      padding: 100px 48px;
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    /* SECTORES */
+    .sectores-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     }
-    .map-inner { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-    .map-text .section-tag { margin-bottom: 16px; }
-    .map-text h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
-    .map-text p { color: var(--gray2); line-height: 1.8; margin-bottom: 20px; }
-    .map-locations { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
-    .map-loc {
-      display: flex; align-items: center; gap: 12px;
-      font-size: 0.875rem; color: var(--gray2);
+    .sector-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 32px 28px; text-align: center;
+      transition: all 0.3s; backdrop-filter: blur(10px);
+      position: relative; overflow: hidden;
     }
-    .map-loc-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 8px var(--cyan);
-      animation: pulse-dot 2s infinite;
-      flex-shrink: 0;
+    .sector-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(0,229,255,0.05); }
+    .sector-icon {
+      font-size: 2.4rem; margin-bottom: 16px; display: block;
+      filter: drop-shadow(0 0 8px rgba(0,229,255,0.3));
     }
-    .map-loc-dot.green { background: var(--green); box-shadow: 0 0 8px var(--green); animation-delay: 0.5s; }
-    .map-loc-dot.yellow { background: #FFD166; box-shadow: 0 0 8px #FFD166; animation-delay: 1s; }
-    @keyframes pulse-dot {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.5); opacity: 0.6; }
+    .sector-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .sector-card p { font-size: 0.8rem; color: var(--gray2); line-height: 1.6; }
+
+    /* PROCESO */
+    .proceso-wrap { display: flex; gap: 0; position: relative; }
+    .proceso-wrap::before {
+      content: ''; position: absolute;
+      top: 28px; left: 10%; width: 80%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0.3;
     }
-    .map-svg-wrap { position: relative; display: flex; justify-content: center; }
-    .map-svg-wrap svg { width: 100%; max-width: 320px; filter: drop-shadow(0 0 20px rgba(0,229,255,0.1)); }
+    .paso {
+      flex: 1; text-align: center; padding: 0 16px; position: relative;
+    }
+    .paso-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--bg2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+      color: var(--cyan); font-weight: 700;
+      transition: all 0.3s; position: relative; z-index: 1;
+    }
+    .paso:hover .paso-num { background: rgba(0,229,255,0.1); border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.2); }
+    .paso h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+    .paso p { font-size: 0.8rem; color: var(--gray2); line-height: 1.6; }
+
+    /* STACK */
+    .stack-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .stack-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+      transition: all 0.2s; backdrop-filter: blur(10px);
+      color: var(--text);
+    }
+    .stack-item:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .stack-item span { font-size: 1.2rem; }
 
     /* EXPERIENCIA */
     .exp-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
@@ -400,6 +427,11 @@
 
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-corner tl" id="curTL"></div>
+<div class="cur-corner tr" id="curTR"></div>
+<div class="cur-corner bl" id="curBL"></div>
+<div class="cur-corner br" id="curBR"></div>
 <div class="grid-bg"></div>
 <canvas id="particles"></canvas>
 <div class="orb orb-1"></div>
@@ -411,7 +443,7 @@
   <div class="nav-links">
     <a href="#ibt">Seguridad</a>
     <a href="#axiona">Digital</a>
-    <a href="#mapa">Proyectos</a>
+    <a href="#sectores">Sectores</a>
     <a href="#experiencia">Experiencia</a>
     <div class="theme-toggle" id="themeToggle" title="Cambiar tema"></div>
     <a class="nav-cta" href="https://wa.me/5493516300133">Contactar</a>
@@ -542,42 +574,92 @@
   </div>
 </div>
 
-<!-- MAPA -->
-<div class="map-section fade-in" id="mapa">
-  <div class="map-inner">
-    <div class="map-text">
-      <div class="section-tag">PRESENCIA</div>
-      <h2>Proyectos en todo el país</h2>
-      <p>Desde Córdoba operamos proyectos en las principales ciudades y provincias de Argentina. Seguridad electrónica e implementaciones digitales para empresas que necesitan que las cosas funcionen.</p>
-      <div class="map-locations">
-        <div class="map-loc"><div class="map-loc-dot"></div>Córdoba — Base de operaciones</div>
-        <div class="map-loc"><div class="map-loc-dot green"></div>Buenos Aires — Proyectos industriales y corporativos</div>
-        <div class="map-loc"><div class="map-loc-dot yellow"></div>Rosario — Countries y desarrollos inmobiliarios</div>
-        <div class="map-loc"><div class="map-loc-dot"></div>Mendoza — Proyectos de seguridad</div>
-        <div class="map-loc"><div class="map-loc-dot green"></div>España & Portugal — Axiona Digital</div>
-      </div>
+<!-- SECTORES -->
+<div class="section fade-in" id="sectores">
+  <div class="section-tag">SECTORES</div>
+  <h2>Industrias que atendemos</h2>
+  <p class="section-desc">Seguridad electrónica y sistemas digitales para empresas de todos los sectores.</p>
+  <div class="sectores-grid">
+    <div class="sector-card tilt-card">
+      <span class="sector-icon">🏛️</span>
+      <h3>Gobierno</h3>
+      <p>Sistemas de seguridad y digitalización para organismos públicos y municipios.</p>
     </div>
-    <div class="map-svg-wrap">
-      <svg viewBox="0 0 300 520" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Argentina shape simplified -->
-        <path d="M120,20 L180,15 L210,40 L220,80 L230,120 L240,160 L245,200 L240,240 L230,270 L220,300 L210,330 L200,360 L190,390 L175,420 L160,450 L145,480 L130,500 L120,510 L110,490 L100,460 L90,430 L80,400 L75,370 L70,340 L65,310 L60,280 L58,250 L60,220 L65,190 L70,160 L75,130 L80,100 L90,70 L105,45 Z" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" fill="rgba(0,229,255,0.04)"/>
-        <!-- Dots ciudades -->
-        <circle cx="148" cy="380" r="5" fill="#00E5FF" opacity="0.9"><animate attributeName="r" values="5;9;5" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/></circle>
-        <circle cx="148" cy="380" r="12" fill="none" stroke="#00E5FF" stroke-width="1" opacity="0.3"><animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/></circle>
-        <circle cx="130" cy="430" r="4" fill="#00FF88" opacity="0.9"><animate attributeName="r" values="4;7;4" dur="2.5s" repeatCount="indefinite"/></circle>
-        <circle cx="140" cy="310" r="3.5" fill="#FFD166" opacity="0.9"><animate attributeName="r" values="3.5;6;3.5" dur="3s" repeatCount="indefinite"/></circle>
-        <circle cx="110" cy="250" r="3" fill="#00E5FF" opacity="0.7"><animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite"/></circle>
-        <!-- Labels -->
-        <text x="158" y="384" font-size="9" fill="#00E5FF" font-family="JetBrains Mono" opacity="0.8">CBA</text>
-        <text x="140" y="434" font-size="9" fill="#00FF88" font-family="JetBrains Mono" opacity="0.8">BUE</text>
-        <text x="150" y="314" font-size="9" fill="#FFD166" font-family="JetBrains Mono" opacity="0.8">ROS</text>
-        <text x="120" y="254" font-size="9" fill="#00E5FF" font-family="JetBrains Mono" opacity="0.8">MDZ</text>
-        <!-- Grid lines -->
-        <line x1="50" y1="260" x2="260" y2="260" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
-        <line x1="50" y1="340" x2="260" y2="340" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
-        <line x1="150" y1="20" x2="150" y2="510" stroke="rgba(0,229,255,0.06)" stroke-width="1"/>
-      </svg>
+    <div class="sector-card tilt-card">
+      <span class="sector-icon">🏭</span>
+      <h3>Industria & Fábricas</h3>
+      <p>Videovigilancia, control de acceso y automatización para plantas productivas.</p>
     </div>
+    <div class="sector-card tilt-card">
+      <span class="sector-icon">🏘️</span>
+      <h3>Countries & Barrios</h3>
+      <p>Soluciones integrales de seguridad para comunidades residenciales privadas.</p>
+    </div>
+    <div class="sector-card tilt-card">
+      <span class="sector-icon">🏗️</span>
+      <h3>Desarrollistas Inmobiliarios</h3>
+      <p>Infraestructura de seguridad y digital desde el diseño del proyecto.</p>
+    </div>
+    <div class="sector-card tilt-card">
+      <span class="sector-icon">🏢</span>
+      <h3>Corporativo & Oficinas</h3>
+      <p>Control de acceso biométrico, cámaras y sistemas integrados para empresas.</p>
+    </div>
+    <div class="sector-card tilt-card">
+      <span class="sector-icon">📦</span>
+      <h3>Logística & Depósitos</h3>
+      <p>Monitoreo perimetral, control de entradas y trazabilidad de operaciones.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESO -->
+<div class="section fade-in" id="proceso" style="border-top: 1px solid var(--border);">
+  <div class="section-tag">CÓMO TRABAJO</div>
+  <h2>Del diagnóstico al resultado</h2>
+  <p class="section-desc" style="margin-bottom: 56px;">Sin vueltas. Entendemos el problema, diseñamos la solución y la dejamos funcionando.</p>
+  <div class="proceso-wrap">
+    <div class="paso">
+      <div class="paso-num">01</div>
+      <h3>Diagnóstico</h3>
+      <p>Entendemos tu operación, qué falla y qué necesitás resolver.</p>
+    </div>
+    <div class="paso">
+      <div class="paso-num">02</div>
+      <h3>Diseño</h3>
+      <p>Planificamos la solución técnica adaptada a tu infraestructura y presupuesto.</p>
+    </div>
+    <div class="paso">
+      <div class="paso-num">03</div>
+      <h3>Implementación</h3>
+      <p>Instalamos, configuramos y probamos. Sin interrumpir tu operación.</p>
+    </div>
+    <div class="paso">
+      <div class="paso-num">04</div>
+      <h3>Soporte</h3>
+      <p>Quedamos disponibles. El sistema funciona y vos tenés respaldo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div class="section fade-in" id="stack" style="border-top: 1px solid var(--border);">
+  <div class="section-tag">TECNOLOGÍAS</div>
+  <h2>Stack que usamos</h2>
+  <p class="section-desc">Las herramientas detrás de cada implementación.</p>
+  <div class="stack-grid">
+    <div class="stack-item"><span>📷</span> Hikvision</div>
+    <div class="stack-item"><span>📷</span> Dahua</div>
+    <div class="stack-item"><span>📷</span> Axis</div>
+    <div class="stack-item"><span>⚙️</span> n8n</div>
+    <div class="stack-item"><span>🔵</span> Google Workspace</div>
+    <div class="stack-item"><span>📱</span> WhatsApp API</div>
+    <div class="stack-item"><span>📊</span> Meta Ads</div>
+    <div class="stack-item"><span>🔍</span> Google Ads</div>
+    <div class="stack-item"><span>🤖</span> Agentes de IA</div>
+    <div class="stack-item"><span>⚡</span> Automatizaciones</div>
+    <div class="stack-item"><span>🛒</span> Ecommerce</div>
+    <div class="stack-item"><span>🌐</span> WebApps</div>
   </div>
 </div>
 
@@ -627,13 +709,26 @@
 <script>
   // ── CURSOR ──
   const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
-  (function animRing() { rx += (mx-rx)*0.15; ry += (my-ry)*0.15; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
-  document.querySelectorAll('a, button, .tilt-card, .theme-toggle').forEach(el => {
-    el.addEventListener('mouseenter', () => { cur.classList.add('hover'); ring.classList.add('hover'); });
-    el.addEventListener('mouseleave', () => { cur.classList.remove('hover'); ring.classList.remove('hover'); });
+  const dot = document.getElementById('curDot');
+  const corners = ['TL','TR','BL','BR'].map(id => document.getElementById('cur'+id));
+  let mx=0, my=0, cx=0, cy=0;
+  const GAP = 16;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.left = mx+'px'; cur.style.top = my+'px';
+    dot.style.left = mx+'px'; dot.style.top = my+'px';
+  });
+  (function animCorners() {
+    cx += (mx-cx)*0.1; cy += (my-cy)*0.1;
+    corners[0].style.left=(cx-GAP)+'px'; corners[0].style.top=(cy-GAP)+'px';
+    corners[1].style.left=(cx+GAP)+'px'; corners[1].style.top=(cy-GAP)+'px';
+    corners[2].style.left=(cx-GAP)+'px'; corners[2].style.top=(cy+GAP)+'px';
+    corners[3].style.left=(cx+GAP)+'px'; corners[3].style.top=(cy+GAP)+'px';
+    requestAnimationFrame(animCorners);
+  })();
+  document.querySelectorAll('a, button, .tilt-card, .theme-toggle, .stack-item').forEach(el => {
+    el.addEventListener('mouseenter', () => corners.forEach(c => c.classList.add('expand')));
+    el.addEventListener('mouseleave', () => corners.forEach(c => c.classList.remove('expand')));
   });
 
   // ── PARTICLES ──
