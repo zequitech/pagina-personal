@@ -1,417 +1,280 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ezequiel Dezalot — Tecnología & Negocios</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #050A0F;
-      --bg2: #080E16;
-      --card: rgba(10, 20, 35, 0.8);
-      --cyan: #00E5FF;
-      --cyan2: #00B4D8;
-      --green: #00FF88;
+      --bg: #FAFAFA;
       --white: #FFFFFF;
-      --gray: #64748B;
-      --gray2: #94A3B8;
-      --border: rgba(0, 229, 255, 0.1);
-      --border2: rgba(0, 229, 255, 0.25);
-      --text: #FFFFFF;
+      --black: #0A0A0A;
+      --gray: #6B7280;
+      --gray2: #9CA3AF;
+      --gray3: #E5E7EB;
+      --accent: #1A56DB;
+      --accent2: #1E40AF;
+      --border: #E5E7EB;
     }
-    [data-theme="light"] {
-      --bg: #F0F4FF;
-      --bg2: #E2E8F8;
-      --card: rgba(255,255,255,0.85);
-      --cyan: #0066CC;
-      --cyan2: #0055AA;
-      --green: #00AA55;
-      --white: #0A1628;
-      --gray: #64748B;
-      --gray2: #475569;
-      --border: rgba(0, 102, 204, 0.15);
-      --border2: rgba(0, 102, 204, 0.3);
-      --text: #0A1628;
-    }
-
-    #cursor, #cursor-ring { display: none; }
 
     html { scroll-behavior: smooth; }
+
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      transition: background 0.4s, color 0.4s;
-    }
-
-    /* CANVAS */
-    #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-
-    .grid-bg {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(0, 229, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 229, 255, 0.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-      transition: opacity 0.4s;
+      color: var(--black);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* NAV */
     nav {
       position: fixed; top: 0; width: 100%;
-      padding: 18px 48px;
+      padding: 20px 64px;
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(5, 10, 15, 0.88);
-      backdrop-filter: blur(24px);
+      background: rgba(250,250,250,0.92);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       z-index: 100;
-      transition: background 0.4s;
     }
-    [data-theme="light"] nav { background: rgba(240,244,255,0.88); }
     .nav-logo {
-      font-weight: 700; font-size: 1rem; letter-spacing: 1px;
-      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700; font-size: 1rem;
+      letter-spacing: -0.3px; color: var(--black);
+      text-decoration: none;
     }
-    .nav-logo .cyan { color: var(--cyan); }
-    .nav-logo .green { color: var(--green); }
-    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
-      color: var(--gray2); text-decoration: none;
-      font-size: 0.85rem; font-weight: 500;
-      transition: color 0.2s; letter-spacing: 0.5px;
+      color: var(--gray); text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: color 0.15s;
     }
-    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover { color: var(--black); }
     .nav-cta {
-      padding: 10px 22px;
-      background: transparent; color: var(--cyan) !important;
-      border: 1px solid var(--cyan); border-radius: 6px;
-      font-size: 0.85rem; font-weight: 600;
-      transition: all 0.2s; position: relative; overflow: hidden;
+      padding: 9px 20px;
+      background: var(--black); color: white !important;
+      border-radius: 6px; font-size: 0.875rem; font-weight: 600;
+      text-decoration: none; transition: opacity 0.15s;
     }
-    .nav-cta::before {
-      content: ''; position: absolute; inset: 0;
-      background: var(--cyan); transform: scaleX(0);
-      transform-origin: left; transition: transform 0.2s; z-index: -1;
-    }
-    .nav-cta:hover::before { transform: scaleX(1); }
-    .nav-cta:hover { color: #050A0F !important; }
-
-    /* THEME TOGGLE */
-    .theme-toggle {
-      width: 44px; height: 24px;
-      background: var(--border2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      position: relative;
-      transition: background 0.3s;
-      display: flex; align-items: center; padding: 2px 4px;
-    }
-    .theme-toggle::after {
-      content: ''; position: absolute;
-      width: 16px; height: 16px;
-      background: var(--cyan); border-radius: 50%;
-      left: 4px; transition: left 0.3s, background 0.3s;
-    }
-    [data-theme="light"] .theme-toggle::after { left: 22px; }
+    .nav-cta:hover { opacity: 0.8; }
 
     /* HERO */
     .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding: 120px 48px 80px;
-      max-width: 1200px; margin: auto;
-      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 64px 80px;
+      max-width: 1100px; margin: auto;
+      border-right: 1px solid var(--border);
     }
-    .hero-content { max-width: 720px; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 16px;
-      background: rgba(0, 229, 255, 0.05);
-      border: 1px solid var(--border2);
-      border-radius: 4px; font-size: 0.75rem; color: var(--cyan);
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 32px; letter-spacing: 1px;
+    .hero-content { max-width: 680px; }
+    .hero-label {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--accent); letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 28px;
     }
-    .hero-badge::before { content: '> '; color: var(--green); }
     .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 800; line-height: 1.1;
-      margin-bottom: 28px; letter-spacing: -1.5px;
-      min-height: 1.2em;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -2px; margin-bottom: 28px;
+      color: var(--black);
     }
-    .cursor-blink {
-      display: inline-block; width: 3px; height: 0.85em;
-      background: var(--cyan); margin-left: 4px;
-      animation: blink 0.8s step-end infinite;
-      vertical-align: middle;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
+    .hero h1 em { font-style: normal; color: var(--accent); }
     .hero-desc {
-      font-size: 1.05rem; color: var(--gray2);
-      margin-bottom: 48px; max-width: 580px; line-height: 1.8;
+      font-size: 1.1rem; color: var(--gray);
+      max-width: 520px; margin-bottom: 44px;
+      line-height: 1.8; font-weight: 400;
     }
-    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn-primary {
-      padding: 14px 32px;
-      background: linear-gradient(135deg, var(--cyan), var(--cyan2));
-      color: #050A0F; text-decoration: none; border-radius: 6px;
-      font-weight: 700; font-size: 0.9rem;
-      transition: all 0.2s; letter-spacing: 0.5px;
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+    .hero-btns { display: flex; gap: 12px; }
+    .btn-dark {
+      padding: 13px 28px; background: var(--black); color: white;
+      text-decoration: none; border-radius: 6px;
+      font-weight: 600; font-size: 0.9rem; transition: opacity 0.15s;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0, 229, 255, 0.4); }
-    .btn-ghost {
-      padding: 14px 32px; background: transparent; color: var(--gray2);
+    .btn-dark:hover { opacity: 0.8; }
+    .btn-outline {
+      padding: 13px 28px; background: transparent; color: var(--black);
       text-decoration: none; border-radius: 6px; font-weight: 500;
-      font-size: 0.9rem; border: 1px solid rgba(100, 116, 139, 0.3);
-      transition: all 0.2s;
+      font-size: 0.9rem; border: 1px solid var(--border); transition: border-color 0.15s;
     }
-    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-outline:hover { border-color: var(--black); }
 
-    /* TERMINAL */
-    .terminal {
-      background: #0A0F1A; border: 1px solid var(--border);
-      border-radius: 10px; overflow: hidden; margin-top: 52px; max-width: 540px;
-    }
-    .terminal-bar {
-      background: #111827; padding: 12px 16px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-r { background: #FF5F56; } .dot-y { background: #FFBD2E; } .dot-g { background: #27C93F; }
-    .terminal-title { font-size: 0.75rem; color: var(--gray); font-family: 'JetBrains Mono', monospace; margin-left: 8px; }
-    .terminal-body { padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 2; }
-    .t-gray { color: var(--gray); } .t-cyan { color: var(--cyan); }
-    .t-green { color: var(--green); } .t-white { color: var(--white); } .t-yellow { color: #FFD166; }
-
-    /* ORBS */
-    .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
-    .orb-1 { width: 400px; height: 400px; background: rgba(0, 229, 255, 0.06); top: 10%; right: 5%; }
-    .orb-2 { width: 300px; height: 300px; background: rgba(0, 255, 136, 0.04); bottom: 20%; left: 10%; }
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); }
 
     /* STATS */
-    .stats-wrap {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      background: rgba(0, 229, 255, 0.02);
+    .stats {
+      max-width: 1100px; margin: auto;
+      padding: 56px 64px;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
-    .stats-inner {
-      max-width: 1200px; margin: auto; padding: 48px;
-      display: grid; grid-template-columns: repeat(4, 1fr);
+    .stat { padding: 0 32px; border-right: 1px solid var(--border); }
+    .stat:first-child { padding-left: 0; }
+    .stat:last-child { border-right: none; }
+    .stat-n {
+      font-size: 2.4rem; font-weight: 900;
+      letter-spacing: -1px; color: var(--black); margin-bottom: 4px;
     }
-    .stat-item { text-align: center; padding: 20px; border-right: 1px solid var(--border); }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-size: 2.8rem; font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      background: linear-gradient(135deg, var(--cyan), var(--green));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 6px; }
+    .stat-l { font-size: 0.8rem; color: var(--gray); font-weight: 500; }
 
     /* SECTION */
-    .section { position: relative; z-index: 1; padding: 100px 48px; max-width: 1200px; margin: auto; }
-    .section-tag {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-      color: var(--cyan); letter-spacing: 2px; margin-bottom: 16px;
-      display: flex; align-items: center; gap: 10px;
+    .section {
+      max-width: 1100px; margin: auto;
+      padding: 96px 64px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
-    .section-tag::after { content: ''; height: 1px; width: 40px; background: var(--cyan); opacity: 0.4; }
-    .section h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
-    .section-desc { color: var(--gray2); max-width: 520px; margin-bottom: 40px; line-height: 1.8; }
-
-    /* HORIZONTAL SCROLL */
-    .h-scroll-wrap { overflow-x: auto; padding-bottom: 16px; margin: 0 -48px; padding-left: 48px; }
-    .h-scroll-wrap::-webkit-scrollbar { height: 4px; }
-    .h-scroll-wrap::-webkit-scrollbar-track { background: var(--border); border-radius: 2px; }
-    .h-scroll-wrap::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
-    .h-scroll-grid {
-      display: flex; gap: 20px;
-      width: max-content; padding-right: 48px;
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; color: var(--accent);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
     }
-
-    /* CARDS 3D */
-    .serv-card {
-      background: var(--card);
-      border: 1px solid var(--border); border-radius: 12px;
-      padding: 36px 32px; width: 300px; flex-shrink: 0;
-      transition: border-color 0.3s, box-shadow 0.3s;
-      backdrop-filter: blur(10px);
-      position: relative; overflow: hidden;
-      transform-style: preserve-3d;
-      will-change: transform;
+    .section h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800;
+      letter-spacing: -1px; margin-bottom: 16px; line-height: 1.15;
     }
-    .serv-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .serv-card:hover { border-color: var(--border2); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,229,255,0.06); }
-    .serv-card:hover::before { opacity: 1; }
-    .serv-card svg { color: var(--cyan); opacity: 0.8; }
-    .serv-num {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-      color: var(--cyan); opacity: 0.6; letter-spacing: 2px; margin-bottom: 20px;
-    }
-    .serv-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; color: var(--text); }
-    .serv-card p { font-size: 0.875rem; color: var(--gray2); line-height: 1.7; }
-    .serv-tag {
-      display: inline-block; margin-top: 18px; padding: 4px 10px;
-      background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0,255,136,0.15);
-      border-radius: 4px; font-size: 0.7rem; color: var(--green);
-      font-family: 'JetBrains Mono', monospace;
+    .section-sub {
+      color: var(--gray); max-width: 480px;
+      margin-bottom: 56px; line-height: 1.7;
     }
 
-    /* SECTORES */
-    .sectores-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    /* GRID SERVICIOS */
+    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .scard {
+      background: var(--white); padding: 40px 36px;
+      transition: background 0.2s;
     }
-    .sector-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 32px 28px; text-align: center;
-      transition: all 0.3s; backdrop-filter: blur(10px);
-      position: relative; overflow: hidden;
+    .scard:hover { background: #F3F4F6; }
+    .scard svg { color: var(--accent); margin-bottom: 20px; opacity: 0.85; }
+    .scard h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.2px; }
+    .scard p { font-size: 0.875rem; color: var(--gray); line-height: 1.7; }
+    .scard-tag {
+      display: inline-block; margin-top: 16px;
+      font-size: 0.7rem; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.5px; text-transform: uppercase;
     }
-    .sector-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(0,229,255,0.05); }
-    .sector-icon {
-      font-size: 2.4rem; margin-bottom: 16px; display: block;
-      filter: drop-shadow(0 0 8px rgba(0,229,255,0.3));
-    }
-    .sector-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-    .sector-card p { font-size: 0.8rem; color: var(--gray2); line-height: 1.6; }
 
     /* PROCESO */
-    .proceso-wrap { display: flex; gap: 0; position: relative; }
-    .proceso-wrap::before {
-      content: ''; position: absolute;
-      top: 28px; left: 10%; width: 80%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      opacity: 0.3;
+    .proceso {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 0; border: 1px solid var(--border);
+      background: var(--border);
     }
     .paso {
-      flex: 1; text-align: center; padding: 0 16px; position: relative;
+      background: var(--white); padding: 36px 28px;
+      transition: background 0.2s;
     }
-    .paso-num {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--bg2); border: 1px solid var(--border);
+    .paso:hover { background: #F3F4F6; }
+    .paso-n {
+      font-size: 0.7rem; font-weight: 700; color: var(--accent);
+      letter-spacing: 2px; margin-bottom: 16px;
+    }
+    .paso h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .paso p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+
+    /* SECTORES */
+    .sectores {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 0; border: 1px solid var(--border); background: var(--border);
+    }
+    .sector {
+      background: var(--white); padding: 32px 28px;
+      display: flex; align-items: flex-start; gap: 16px;
+      transition: background 0.2s;
+    }
+    .sector:hover { background: #F3F4F6; }
+    .sector-icon-wrap {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: #EFF6FF; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
-      color: var(--cyan); font-weight: 700;
-      transition: all 0.3s; position: relative; z-index: 1;
     }
-    .paso:hover .paso-num { background: rgba(0,229,255,0.1); border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.2); }
-    .paso h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
-    .paso p { font-size: 0.8rem; color: var(--gray2); line-height: 1.6; }
+    .sector-icon-wrap svg { color: var(--accent); }
+    .sector h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .sector p { font-size: 0.8rem; color: var(--gray); line-height: 1.6; }
 
     /* STACK */
-    .stack-grid { display: flex; flex-wrap: wrap; gap: 12px; }
-    .stack-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 20px;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 8px; font-size: 0.85rem; font-weight: 500;
-      transition: all 0.2s; backdrop-filter: blur(10px);
-      color: var(--text);
+    .stack-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stack-chip {
+      padding: 8px 16px; background: var(--white);
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: 0.8rem; font-weight: 500; color: var(--black);
+      transition: all 0.15s;
     }
-    .stack-item:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
-    .stack-item span { font-size: 1.2rem; }
+    .stack-chip:hover { border-color: var(--accent); color: var(--accent); }
 
     /* EXPERIENCIA */
-    .exp-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-    .exp-left p { color: var(--gray2); line-height: 1.8; margin-bottom: 28px; }
-    .exp-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .exp-text p { color: var(--gray); line-height: 1.8; margin-bottom: 20px; font-size: 0.95rem; }
+    .exp-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .exp-link:hover { text-decoration: underline; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .exp-tag {
-      padding: 5px 12px;
-      background: rgba(0, 229, 255, 0.05); border: 1px solid var(--border);
-      border-radius: 4px; font-size: 0.75rem; color: var(--gray2);
-      font-family: 'JetBrains Mono', monospace; transition: all 0.2s;
+      padding: 4px 12px; background: #EFF6FF;
+      border-radius: 4px; font-size: 0.75rem;
+      font-weight: 500; color: var(--accent);
     }
-    .exp-tag:hover { border-color: var(--cyan); color: var(--cyan); }
-    .exp-right { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .exp-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 28px 24px; text-align: center; transition: border-color 0.2s;
-    }
-    .exp-box:hover { border-color: var(--border2); }
-    .exp-box-num { font-size: 1.8rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--cyan); }
-    .exp-box-text { font-size: 0.78rem; color: var(--gray); margin-top: 6px; line-height: 1.4; }
+    .exp-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .exp-num-box { background: var(--white); padding: 28px 24px; }
+    .exp-num { font-size: 2rem; font-weight: 900; letter-spacing: -1px; color: var(--black); }
+    .exp-num-label { font-size: 0.78rem; color: var(--gray); margin-top: 4px; line-height: 1.4; }
 
     /* CTA */
-    .cta-section { position: relative; z-index: 1; padding: 100px 48px; }
-    .cta-inner {
-      max-width: 800px; margin: auto; text-align: center;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 72px 56px; position: relative; overflow: hidden;
-      backdrop-filter: blur(20px);
+    .cta-section {
+      max-width: 1100px; margin: auto;
+      padding: 96px 64px;
+      border-right: 1px solid var(--border);
     }
-    .cta-glow {
-      position: absolute; width: 300px; height: 300px;
-      background: rgba(0, 229, 255, 0.06); border-radius: 50%;
-      top: -100px; right: -100px; filter: blur(60px); pointer-events: none;
+    .cta-inner { max-width: 600px; }
+    .cta-inner h2 {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
+      letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1;
     }
-    .cta-inner h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
-    .cta-inner h2 span { background: linear-gradient(90deg, var(--cyan), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .cta-inner p { color: var(--gray2); margin-bottom: 40px; line-height: 1.8; }
+    .cta-inner p { color: var(--gray); margin-bottom: 36px; line-height: 1.7; }
 
     /* FOOTER */
     footer {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border); padding: 28px 48px;
+      max-width: 1100px; margin: auto;
+      padding: 28px 64px;
       display: flex; justify-content: space-between; align-items: center;
-      color: var(--gray); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      color: var(--gray2); font-size: 0.8rem;
     }
-    footer span.active { color: var(--cyan); }
 
     /* FADE IN */
-    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 900px) {
-      * { cursor: auto !important; }
-      #cursor, #cursor-ring { display: none; }
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
-      .hero { padding: 100px 20px 60px; }
-      .stats-inner { grid-template-columns: repeat(2,1fr); padding: 32px 20px; }
-      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
-      .section { padding: 60px 20px; }
-      .h-scroll-wrap { margin: 0 -20px; padding-left: 20px; }
-      .h-scroll-grid { padding-right: 20px; }
-      .serv-card { width: 260px; }
-      .map-inner { grid-template-columns: 1fr; }
-      .map-svg-wrap { display: none; }
-      .exp-wrap { grid-template-columns: 1fr; }
-      .cta-inner { padding: 40px 24px; }
-      .cta-section { padding: 60px 20px; }
-      footer { padding: 20px; flex-direction: column; gap: 8px; }
+      .hero { padding: 100px 20px 60px; border: none; }
+      .stats { grid-template-columns: repeat(2,1fr); padding: 40px 20px; border: none; }
+      .stat { border: none; padding: 16px 0; border-bottom: 1px solid var(--border); }
+      .section { padding: 60px 20px; border: none; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .proceso { grid-template-columns: 1fr 1fr; }
+      .sectores { grid-template-columns: 1fr; }
+      .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+      .cta-section { padding: 60px 20px; border: none; }
+      footer { padding: 20px; flex-direction: column; gap: 8px; border: none; }
     }
   </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-<div class="grid-bg"></div>
-<canvas id="particles"></canvas>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><span class="cyan">eze</span><span class="green">.</span>dev</div>
+  <a class="nav-logo" href="#">Ezequiel Dezalot</a>
   <div class="nav-links">
     <a href="#ibt">Seguridad</a>
     <a href="#axiona">Digital</a>
     <a href="#sectores">Sectores</a>
     <a href="#experiencia">Experiencia</a>
-    <div class="theme-toggle" id="themeToggle" title="Cambiar tema"></div>
     <a class="nav-cta" href="https://wa.me/5493516300133">Contactar</a>
   </div>
 </nav>
@@ -419,242 +282,190 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-content">
-    <div class="hero-badge">TECNOLOGÍA & NEGOCIOS</div>
-    <h1 id="heroTitle"><span class="cursor-blink"></span></h1>
-    <p class="hero-desc">Implemento sistemas de seguridad electrónica y soluciones digitales para empresas que quieren que las cosas funcionen.</p>
+    <span class="hero-label">Tecnología & Negocios</span>
+    <h1>Sistemas que hacen que las cosas <em>funcionen.</em></h1>
+    <p class="hero-desc">Seguridad electrónica y soluciones digitales para empresas que no tienen tiempo para que las cosas fallen.</p>
     <div class="hero-btns">
-      <a class="btn-primary" href="https://wa.me/5493516300133">Agendar reunión →</a>
-      <a class="btn-ghost" href="#ibt">Ver soluciones</a>
-    </div>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-        <span class="terminal-title">diagnóstico.sh</span>
-      </div>
-      <div class="terminal-body">
-        <div><span class="t-gray">$</span> <span class="t-cyan">analizar</span> <span class="t-white">--empresa</span></div>
-        <div><span class="t-gray">→</span> <span class="t-yellow">sistemas_seguridad</span><span class="t-gray">:</span> <span class="t-green">disponibles ✓</span></div>
-        <div><span class="t-gray">→</span> <span class="t-yellow">soluciones_digitales</span><span class="t-gray">:</span> <span class="t-green">disponibles ✓</span></div>
-        <div><span class="t-gray">→</span> <span class="t-yellow">experiencia</span><span class="t-gray">:</span> <span class="t-green">+10 años ✓</span></div>
-        <div><span class="t-gray">→</span> <span class="t-cyan">contacto</span><span class="t-gray">:</span> <span class="t-green">WhatsApp activo ✓</span></div>
-      </div>
+      <a class="btn-dark" href="https://wa.me/5493516300133">Agendar reunión →</a>
+      <a class="btn-outline" href="#ibt">Ver servicios</a>
     </div>
   </div>
 </div>
 
 <!-- STATS -->
-<div class="stats-wrap">
-  <div class="stats-inner">
-    <div class="stat-item"><div class="stat-num" data-target="10">0</div><div class="stat-label">años de experiencia</div></div>
-    <div class="stat-item"><div class="stat-num" data-target="50">0</div><div class="stat-label">proyectos implementados</div></div>
-    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">proyectos en producción</div></div>
-    <div class="stat-item"><div class="stat-num">B2B</div><div class="stat-label">exclusivo para empresas</div></div>
-  </div>
+<div class="stats">
+  <div class="stat"><div class="stat-n" data-target="10">0</div><div class="stat-l">años de experiencia</div></div>
+  <div class="stat"><div class="stat-n" data-target="50">0</div><div class="stat-l">proyectos implementados</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">proyectos en producción</div></div>
+  <div class="stat"><div class="stat-n">B2B</div><div class="stat-l">exclusivo para empresas</div></div>
 </div>
 
 <!-- IBT -->
 <div class="section fade-in" id="ibt">
-  <div class="section-tag">SEGURIDAD ELECTRÓNICA</div>
-  <h2>IBT — Más de 35 años protegiendo empresas</h2>
-  <p class="section-desc">Integradores oficiales Hikvision. Proyectos en countries, fábricas, gobierno y desarrollistas inmobiliarios.</p>
-  <div class="h-scroll-wrap">
-    <div class="h-scroll-grid">
-      <div class="serv-card tilt-card">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><rect x="4" y="4" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="13" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 28h16M16 22v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="serv-num">// 01</div>
-        <h3>CCTV & Videovigilancia</h3>
-        <p>Instalación profesional de cámaras Hikvision, Dahua y Axis. Monitoreo en tiempo real y control remoto desde el celular.</p>
-        <span class="serv-tag">Hikvision · Dahua · Axis</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><rect x="6" y="8" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M16 4v4M16 24v4M4 16h2M26 16h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="serv-num">// 02</div>
-        <h3>Control de Acceso</h3>
-        <p>Sistemas biométricos, tarjetas de proximidad, torniquetes y cerraduras electrónicas con registro en tiempo real.</p>
-        <span class="serv-tag">Biométrico · Facial · Proximidad</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4z" stroke="currentColor" stroke-width="1.5"/><path d="M16 10v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
-        <div class="serv-num">// 03</div>
-        <h3>Alarmas & Monitoreo</h3>
-        <p>Alarmas de intrusión y pánico, sensores de movimiento y perímetro. Integración con centrales de monitoreo 24/7.</p>
-        <span class="serv-tag">Monitoreo 24/7</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><path d="M16 4l10 5v8c0 5-4 9-10 11C10 26 6 22 6 17V9l10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="serv-num">// 04</div>
-        <h3>Consultoría Profesional</h3>
-        <p>Diagnóstico de infraestructura, diseño de soluciones escalables y recomendaciones técnicas para cada operación.</p>
-        <span class="serv-tag">Diseño · Implementación · Soporte</span>
-      </div>
+  <div class="section-label">Seguridad Electrónica</div>
+  <h2>IBT — 35 años protegiendo empresas</h2>
+  <p class="section-sub">Integradores oficiales Hikvision. Proyectos en countries, fábricas, gobierno y desarrollistas inmobiliarios.</p>
+  <div class="grid-2">
+    <div class="scard">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="13" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 28h16M16 22v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <h3>CCTV & Videovigilancia</h3>
+      <p>Instalación profesional de cámaras Hikvision, Dahua y Axis. Monitoreo en tiempo real y control remoto.</p>
+      <span class="scard-tag">Hikvision · Dahua · Axis</span>
+    </div>
+    <div class="scard">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="6" y="8" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M16 4v4M16 24v4M4 16h2M26 16h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <h3>Control de Acceso</h3>
+      <p>Sistemas biométricos, tarjetas de proximidad, torniquetes y cerraduras electrónicas con registro en tiempo real.</p>
+      <span class="scard-tag">Biométrico · Facial · Proximidad</span>
+    </div>
+    <div class="scard">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4z" stroke="currentColor" stroke-width="1.5"/><path d="M16 10v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
+      <h3>Alarmas & Monitoreo</h3>
+      <p>Alarmas de intrusión y pánico, sensores de movimiento y perímetro. Integración con centrales 24/7.</p>
+      <span class="scard-tag">Monitoreo 24/7</span>
+    </div>
+    <div class="scard">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 4l10 5v8c0 5-4 9-10 11C10 26 6 22 6 17V9l10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Consultoría Profesional</h3>
+      <p>Diagnóstico de infraestructura, diseño de soluciones escalables y recomendaciones técnicas a medida.</p>
+      <span class="scard-tag">Diseño · Implementación · Soporte</span>
     </div>
   </div>
-  <div style="margin-top: 32px;">
-    <a class="btn-ghost" href="https://ibtseguridadelectronica.com" target="_blank">Ver sitio de IBT →</a>
+  <div style="margin-top: 28px;">
+    <a class="btn-outline" href="https://ibtseguridadelectronica.com" target="_blank">Ver sitio de IBT →</a>
   </div>
 </div>
 
 <!-- AXIONA -->
 <div class="section fade-in" id="axiona">
-  <div class="section-tag">SISTEMAS DIGITALES</div>
+  <div class="section-label">Sistemas Digitales</div>
   <h2>Axiona — Ecosistema digital para empresas</h2>
-  <p class="section-desc">Co-fundador. Construcciones digitales para negocios en Argentina, España y Portugal.</p>
-  <div class="h-scroll-wrap">
-    <div class="h-scroll-grid">
-      <div class="serv-card tilt-card">
-        <div class="serv-num">// 01</div>
-        <h3>Software & WebApps</h3>
-        <p>Desarrollo personalizado para operaciones digitales precisas. Soluciones que se adaptan a tu negocio, no al revés.</p>
-        <span class="serv-tag">Desarrollo a medida</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <div class="serv-num">// 02</div>
-        <h3>Landing Pages & Ecommerce</h3>
-        <p>Presencia digital construida para convertir. Diseño, copy y arquitectura orientados a que el visitante tome acción.</p>
-        <span class="serv-tag">Conversión · Ventas</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <div class="serv-num">// 03</div>
-        <h3>Automatización de Procesos</h3>
-        <p>Flujos inteligentes con n8n y el ecosistema Google que eliminan trabajo manual y conectan tus herramientas.</p>
-        <span class="serv-tag">n8n · Google · Integraciones</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <div class="serv-num">// 04</div>
-        <h3>Chatbots & Agentes de IA</h3>
-        <p>Sistemas autónomos de inteligencia artificial capaces de tomar decisiones dentro de cualquier proceso de tu empresa.</p>
-        <span class="serv-tag">IA · Agentes · Automatización</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <div class="serv-num">// 05</div>
-        <h3>Meta Ads & Google Ads</h3>
-        <p>Campañas conectadas a tu proceso de ventas que generan revenue medible, no métricas de vanidad.</p>
-        <span class="serv-tag">Performance · ROI</span>
-      </div>
-      <div class="serv-card tilt-card">
-        <div class="serv-num">// 06</div>
-        <h3>Educación Digital</h3>
-        <p>Formación en construcción digital para quienes quieren dominar estas herramientas sin ser programadores.</p>
-        <span class="serv-tag">Próximamente</span>
-      </div>
+  <p class="section-sub">Co-fundador. Construcciones digitales para negocios en Argentina, España y Portugal.</p>
+  <div class="grid-3">
+    <div class="scard">
+      <h3>Software & WebApps</h3>
+      <p>Desarrollo personalizado para operaciones digitales precisas. Soluciones que se adaptan a tu negocio.</p>
+      <span class="scard-tag">Desarrollo a medida</span>
+    </div>
+    <div class="scard">
+      <h3>Landing Pages & Ecommerce</h3>
+      <p>Presencia digital construida para convertir. Diseño y arquitectura orientados a la acción.</p>
+      <span class="scard-tag">Conversión · Ventas</span>
+    </div>
+    <div class="scard">
+      <h3>Automatización de Procesos</h3>
+      <p>Flujos inteligentes con n8n y Google que eliminan trabajo manual y conectan tus herramientas.</p>
+      <span class="scard-tag">n8n · Google · Integraciones</span>
+    </div>
+    <div class="scard">
+      <h3>Chatbots & Agentes de IA</h3>
+      <p>Sistemas autónomos capaces de tomar decisiones dentro de cualquier proceso de tu empresa.</p>
+      <span class="scard-tag">IA · Agentes</span>
+    </div>
+    <div class="scard">
+      <h3>Meta Ads & Google Ads</h3>
+      <p>Campañas conectadas a tu proceso de ventas. Revenue medible, no métricas de vanidad.</p>
+      <span class="scard-tag">Performance · ROI</span>
+    </div>
+    <div class="scard">
+      <h3>Educación Digital</h3>
+      <p>Formación en construcción digital para quienes quieren dominar estas herramientas.</p>
+      <span class="scard-tag">Próximamente</span>
     </div>
   </div>
-  <div style="margin-top: 32px;">
-    <a class="btn-ghost" href="https://axiona.site" target="_blank">Ver sitio de Axiona →</a>
+  <div style="margin-top: 28px;">
+    <a class="btn-outline" href="https://axiona.site" target="_blank">Ver sitio de Axiona →</a>
   </div>
 </div>
 
 <!-- SECTORES -->
 <div class="section fade-in" id="sectores">
-  <div class="section-tag">SECTORES</div>
+  <div class="section-label">Sectores</div>
   <h2>Industrias que atendemos</h2>
-  <p class="section-desc">Seguridad electrónica y sistemas digitales para empresas de todos los sectores.</p>
-  <div class="sectores-grid">
-    <div class="sector-card tilt-card">
-      <span class="sector-icon">🏛️</span>
-      <h3>Gobierno</h3>
-      <p>Sistemas de seguridad y digitalización para organismos públicos y municipios.</p>
+  <p class="section-sub">Seguridad electrónica y sistemas digitales para empresas de todos los sectores.</p>
+  <div class="sectores">
+    <div class="sector">
+      <div class="sector-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21v-4h6v4"/></svg></div>
+      <div><h3>Gobierno</h3><p>Organismos públicos y municipios.</p></div>
     </div>
-    <div class="sector-card tilt-card">
-      <span class="sector-icon">🏭</span>
-      <h3>Industria & Fábricas</h3>
-      <p>Videovigilancia, control de acceso y automatización para plantas productivas.</p>
+    <div class="sector">
+      <div class="sector-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2M12 12v3M8 12h8"/></svg></div>
+      <div><h3>Industria & Fábricas</h3><p>Plantas productivas y depósitos.</p></div>
     </div>
-    <div class="sector-card tilt-card">
-      <span class="sector-icon">🏘️</span>
-      <h3>Countries & Barrios</h3>
-      <p>Soluciones integrales de seguridad para comunidades residenciales privadas.</p>
+    <div class="sector">
+      <div class="sector-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div><h3>Countries & Barrios</h3><p>Comunidades residenciales privadas.</p></div>
     </div>
-    <div class="sector-card tilt-card">
-      <span class="sector-icon">🏗️</span>
-      <h3>Desarrollistas Inmobiliarios</h3>
-      <p>Infraestructura de seguridad y digital desde el diseño del proyecto.</p>
+    <div class="sector">
+      <div class="sector-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="1"/><path d="M8 21V3M16 3v18M2 8h6M2 13h6M2 18h6M16 8h6M16 13h6M16 18h6"/></svg></div>
+      <div><h3>Desarrollistas Inmobiliarios</h3><p>Infraestructura desde el diseño.</p></div>
     </div>
-    <div class="sector-card tilt-card">
-      <span class="sector-icon">🏢</span>
-      <h3>Corporativo & Oficinas</h3>
-      <p>Control de acceso biométrico, cámaras y sistemas integrados para empresas.</p>
+    <div class="sector">
+      <div class="sector-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+      <div><h3>Corporativo & Oficinas</h3><p>Control de acceso y cámaras integradas.</p></div>
     </div>
-    <div class="sector-card tilt-card">
-      <span class="sector-icon">📦</span>
-      <h3>Logística & Depósitos</h3>
-      <p>Monitoreo perimetral, control de entradas y trazabilidad de operaciones.</p>
+    <div class="sector">
+      <div class="sector-icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3M9 21h10a2 2 0 002-2v-7a2 2 0 00-2-2H9a2 2 0 00-2 2v7a2 2 0 002 2z"/></svg></div>
+      <div><h3>Logística & Depósitos</h3><p>Monitoreo perimetral y trazabilidad.</p></div>
     </div>
   </div>
 </div>
 
 <!-- PROCESO -->
-<div class="section fade-in" id="proceso" style="border-top: 1px solid var(--border);">
-  <div class="section-tag">CÓMO TRABAJO</div>
+<div class="section fade-in" id="proceso">
+  <div class="section-label">Cómo trabajo</div>
   <h2>Del diagnóstico al resultado</h2>
-  <p class="section-desc" style="margin-bottom: 56px;">Sin vueltas. Entendemos el problema, diseñamos la solución y la dejamos funcionando.</p>
-  <div class="proceso-wrap">
-    <div class="paso">
-      <div class="paso-num">01</div>
-      <h3>Diagnóstico</h3>
-      <p>Entendemos tu operación, qué falla y qué necesitás resolver.</p>
-    </div>
-    <div class="paso">
-      <div class="paso-num">02</div>
-      <h3>Diseño</h3>
-      <p>Planificamos la solución técnica adaptada a tu infraestructura y presupuesto.</p>
-    </div>
-    <div class="paso">
-      <div class="paso-num">03</div>
-      <h3>Implementación</h3>
-      <p>Instalamos, configuramos y probamos. Sin interrumpir tu operación.</p>
-    </div>
-    <div class="paso">
-      <div class="paso-num">04</div>
-      <h3>Soporte</h3>
-      <p>Quedamos disponibles. El sistema funciona y vos tenés respaldo.</p>
-    </div>
+  <p class="section-sub">Sin vueltas. Entendemos el problema, diseñamos la solución y la dejamos funcionando.</p>
+  <div class="proceso">
+    <div class="paso"><div class="paso-n">01</div><h3>Diagnóstico</h3><p>Entendemos tu operación, qué falla y qué necesitás resolver.</p></div>
+    <div class="paso"><div class="paso-n">02</div><h3>Diseño</h3><p>Planificamos la solución técnica adaptada a tu infraestructura.</p></div>
+    <div class="paso"><div class="paso-n">03</div><h3>Implementación</h3><p>Instalamos, configuramos y probamos sin interrumpir tu operación.</p></div>
+    <div class="paso"><div class="paso-n">04</div><h3>Soporte</h3><p>Quedamos disponibles. El sistema funciona y tenés respaldo.</p></div>
   </div>
 </div>
 
 <!-- STACK -->
-<div class="section fade-in" id="stack" style="border-top: 1px solid var(--border);">
-  <div class="section-tag">TECNOLOGÍAS</div>
+<div class="section fade-in" id="stack">
+  <div class="section-label">Tecnologías</div>
   <h2>Stack que usamos</h2>
-  <p class="section-desc">Las herramientas detrás de cada implementación.</p>
-  <div class="stack-grid">
-    <div class="stack-item"><span>📷</span> Hikvision</div>
-    <div class="stack-item"><span>📷</span> Dahua</div>
-    <div class="stack-item"><span>📷</span> Axis</div>
-    <div class="stack-item"><span>⚙️</span> n8n</div>
-    <div class="stack-item"><span>🔵</span> Google Workspace</div>
-    <div class="stack-item"><span>📱</span> WhatsApp API</div>
-    <div class="stack-item"><span>📊</span> Meta Ads</div>
-    <div class="stack-item"><span>🔍</span> Google Ads</div>
-    <div class="stack-item"><span>🤖</span> Agentes de IA</div>
-    <div class="stack-item"><span>⚡</span> Automatizaciones</div>
-    <div class="stack-item"><span>🛒</span> Ecommerce</div>
-    <div class="stack-item"><span>🌐</span> WebApps</div>
+  <p class="section-sub">Las herramientas detrás de cada implementación.</p>
+  <div class="stack-wrap">
+    <span class="stack-chip">Hikvision</span>
+    <span class="stack-chip">Dahua</span>
+    <span class="stack-chip">Axis</span>
+    <span class="stack-chip">n8n</span>
+    <span class="stack-chip">Google Workspace</span>
+    <span class="stack-chip">WhatsApp API</span>
+    <span class="stack-chip">Meta Ads</span>
+    <span class="stack-chip">Google Ads</span>
+    <span class="stack-chip">Agentes de IA</span>
+    <span class="stack-chip">Automatizaciones</span>
+    <span class="stack-chip">Ecommerce</span>
+    <span class="stack-chip">WebApps</span>
   </div>
 </div>
 
 <!-- EXPERIENCIA -->
 <div class="section fade-in" id="experiencia">
-  <div class="section-tag">TRAYECTORIA</div>
+  <div class="section-label">Trayectoria</div>
   <h2>10 años en operaciones reales</h2>
-  <div class="exp-wrap">
-    <div class="exp-left">
-      <p>En <strong style="color:var(--text)">IBT</strong> llevo más de 10 años como PM en sistemas de seguridad electrónica — proyectos en countries, fábricas, gobierno y desarrollistas inmobiliarios. Integración Hikvision, diseño, instalación y configuración.</p>
-      <p>Paralelamente, soy co-fundador de <a href="https://axiona.site" target="_blank" style="color:var(--cyan);text-decoration:none;font-weight:600">Axiona</a> — ecosistema digital para empresas en Argentina, España y Portugal.</p>
+  <div class="exp-grid">
+    <div class="exp-text">
+      <p>En <strong>IBT</strong> llevo más de 10 años como PM en sistemas de seguridad electrónica — proyectos en countries, fábricas, gobierno y desarrollistas inmobiliarios. Integración Hikvision, diseño, instalación y configuración.</p>
+      <p>Paralelamente, soy co-fundador de <a class="exp-link" href="https://axiona.site" target="_blank">Axiona</a> — ecosistema digital para empresas en Argentina, España y Portugal.</p>
       <div class="exp-tags">
-        <span class="exp-tag">seguridad_electrónica</span>
-        <span class="exp-tag">proyectos_industriales</span>
-        <span class="exp-tag">sector_gobierno</span>
-        <span class="exp-tag">real_estate</span>
-        <span class="exp-tag">automatización</span>
-        <span class="exp-tag">integraciones</span>
+        <span class="exp-tag">Seguridad electrónica</span>
+        <span class="exp-tag">Proyectos industriales</span>
+        <span class="exp-tag">Sector gobierno</span>
+        <span class="exp-tag">Real estate</span>
+        <span class="exp-tag">Automatización</span>
       </div>
     </div>
-    <div class="exp-right">
-      <div class="exp-box tilt-card"><div class="exp-box-num">+35</div><div class="exp-box-text">años de trayectoria IBT</div></div>
-      <div class="exp-box tilt-card"><div class="exp-box-num">360°</div><div class="exp-box-text">diseño, implementación y soporte</div></div>
-      <div class="exp-box tilt-card"><div class="exp-box-num">IBT</div><div class="exp-box-text">integrador oficial Hikvision</div></div>
-      <div class="exp-box tilt-card"><div class="exp-box-num">ARG</div><div class="exp-box-text">proyectos en todo el país</div></div>
+    <div class="exp-nums">
+      <div class="exp-num-box"><div class="exp-num">+35</div><div class="exp-num-label">años de trayectoria IBT</div></div>
+      <div class="exp-num-box"><div class="exp-num">360°</div><div class="exp-num-label">diseño, implementación y soporte</div></div>
+      <div class="exp-num-box"><div class="exp-num">IBT</div><div class="exp-num-label">integrador oficial Hikvision</div></div>
+      <div class="exp-num-box"><div class="exp-num">ARG</div><div class="exp-num-label">proyectos en todo el país</div></div>
     </div>
   </div>
 </div>
@@ -662,100 +473,39 @@
 <!-- CTA -->
 <div class="cta-section fade-in">
   <div class="cta-inner">
-    <div class="cta-glow"></div>
-    <h2>¿Hablamos sobre <span>tu proyecto</span>?</h2>
+    <h2>¿Hablamos sobre tu proyecto?</h2>
     <p>Seguridad electrónica o sistemas digitales — coordinemos una llamada y vemos qué necesitás.</p>
-    <a class="btn-primary" href="https://wa.me/5493516300133">Escribime por WhatsApp →</a>
+    <a class="btn-dark" href="https://wa.me/5493516300133">Escribime por WhatsApp →</a>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <span class="active">eze.dev</span>
-  <div>© 2026 Ezequiel Dezalot · Córdoba, Argentina</div>
-  <div>sistema_activo <span class="active">●</span></div>
+  <span>Ezequiel Dezalot</span>
+  <span>© 2026 · Córdoba, Argentina</span>
 </footer>
 
 <script>
-  // ── CURSOR ──
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx=0, my=0, rx=0, ry=0;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
-  (function animRing() { rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
-  document.querySelectorAll('a, button, .tilt-card, .theme-toggle, .stack-item').forEach(el => {
-    el.addEventListener('mouseenter', () => { cur.classList.add('hover'); ring.classList.add('hover'); });
-    el.addEventListener('mouseleave', () => { cur.classList.remove('hover'); ring.classList.remove('hover'); });
-  });
+  // FADE IN
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
-  // ── PARTICLES ──
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-  const pts = Array.from({length:55}, () => ({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, dx:(Math.random()-.5)*.3, dy:(Math.random()-.5)*.3, r:Math.random()*1.4+.4, o:Math.random()*.35+.08 }));
-  function drawP() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    pts.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(0,229,255,${p.o})`; ctx.fill();
-      p.x+=p.dx; p.y+=p.dy;
-      if(p.x<0||p.x>canvas.width) p.dx*=-1;
-      if(p.y<0||p.y>canvas.height) p.dy*=-1;
-    });
-    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++) {
-      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
-      if(d<110) { ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle=`rgba(0,229,255,${.05*(1-d/110)})`; ctx.lineWidth=.5; ctx.stroke(); }
-    }
-    requestAnimationFrame(drawP);
-  }
-  drawP();
-  window.addEventListener('resize', () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
-
-  // ── TYPEWRITER ──
-  const heroTitle = document.getElementById('heroTitle');
-  const text = 'Ezequiel Dezalot';
-  let i = 0;
-  function type() {
-    if(i <= text.length) {
-      heroTitle.innerHTML = text.slice(0,i) + '<span class="cursor-blink"></span>';
-      i++; setTimeout(type, i === 1 ? 600 : 80);
-    }
-  }
-  setTimeout(type, 800);
-
-  // ── THEME TOGGLE ──
-  document.getElementById('themeToggle').addEventListener('click', () => {
-    const html = document.documentElement;
-    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-  });
-
-  // ── 3D TILT ──
-  document.querySelectorAll('.tilt-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5;
-      const y = (e.clientY - r.top) / r.height - .5;
-      card.style.transform = `perspective(600px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(8px)`;
-    });
-    card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(600px) rotateY(0) rotateX(0) translateZ(0)'; });
-  });
-
-  // ── COUNTERS ──
+  // COUNTERS
   function animCount(el, target) {
     let c=0; const step=Math.ceil(target/40);
     const iv=setInterval(()=>{ c=Math.min(c+step,target); el.textContent='+'+c; if(c>=target) clearInterval(iv); },40);
   }
-
-  // ── SCROLL OBSERVER ──
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, {threshold:0.1});
-  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-
   const statsObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) { e.target.querySelectorAll('[data-target]').forEach(el => animCount(el, parseInt(el.dataset.target))); statsObs.unobserve(e.target); } });
-  }, {threshold:.5});
-  const sw = document.querySelector('.stats-wrap');
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        e.target.querySelectorAll('[data-target]').forEach(el => animCount(el, parseInt(el.dataset.target)));
+        statsObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  const sw = document.querySelector('.stats');
   if(sw) statsObs.observe(sw);
 </script>
 </body>
