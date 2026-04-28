@@ -40,34 +40,21 @@
     /* CURSOR */
     * { cursor: none !important; }
     #cursor {
-      position: fixed; pointer-events: none; z-index: 9999;
+      position: fixed; width: 8px; height: 8px;
+      background: var(--cyan); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
       transform: translate(-50%, -50%);
-      width: 24px; height: 24px;
-    }
-    #cursor::before, #cursor::after {
-      content: ''; position: absolute; background: var(--cyan);
-      transition: all 0.15s;
-    }
-    #cursor::before { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
-    #cursor::after  { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
-    .cur-dot {
-      position: fixed; pointer-events: none; z-index: 9999;
-      width: 4px; height: 4px; background: var(--cyan); border-radius: 50%;
-      transform: translate(-50%,-50%);
-    }
-    .cur-corner {
-      position: fixed; pointer-events: none; z-index: 9998;
-      width: 18px; height: 18px;
-      border-color: var(--cyan); border-style: solid; border-width: 0;
-      transform: translate(-50%,-50%);
       transition: width 0.2s, height 0.2s;
     }
-    .cur-corner.tl { border-top-width: 2px; border-left-width: 2px; }
-    .cur-corner.tr { border-top-width: 2px; border-right-width: 2px; }
-    .cur-corner.bl { border-bottom-width: 2px; border-left-width: 2px; }
-    .cur-corner.br { border-bottom-width: 2px; border-right-width: 2px; }
-    .cur-corner.expand { width: 32px; height: 32px; }
-    #cursor-ring { display: none; }
+    #cursor-ring {
+      position: fixed; width: 32px; height: 32px;
+      border: 1px solid var(--cyan); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      opacity: 0.4; transition: width 0.2s, height 0.2s, opacity 0.2s;
+    }
+    #cursor.hover { width: 4px; height: 4px; }
+    #cursor-ring.hover { width: 48px; height: 48px; opacity: 0.7; }
 
     html { scroll-behavior: smooth; }
     body {
@@ -284,6 +271,7 @@
     }
     .serv-card:hover { border-color: var(--border2); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,229,255,0.06); }
     .serv-card:hover::before { opacity: 1; }
+    .serv-card svg { color: var(--cyan); opacity: 0.8; }
     .serv-num {
       font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
       color: var(--cyan); opacity: 0.6; letter-spacing: 2px; margin-bottom: 20px;
@@ -427,11 +415,6 @@
 
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
-<div class="cur-dot" id="curDot"></div>
-<div class="cur-corner tl" id="curTL"></div>
-<div class="cur-corner tr" id="curTR"></div>
-<div class="cur-corner bl" id="curBL"></div>
-<div class="cur-corner br" id="curBR"></div>
 <div class="grid-bg"></div>
 <canvas id="particles"></canvas>
 <div class="orb orb-1"></div>
@@ -494,24 +477,28 @@
   <div class="h-scroll-wrap">
     <div class="h-scroll-grid">
       <div class="serv-card tilt-card">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><rect x="4" y="4" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="13" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 28h16M16 22v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <div class="serv-num">// 01</div>
         <h3>CCTV & Videovigilancia</h3>
         <p>Instalación profesional de cámaras Hikvision, Dahua y Axis. Monitoreo en tiempo real y control remoto desde el celular.</p>
         <span class="serv-tag">Hikvision · Dahua · Axis</span>
       </div>
       <div class="serv-card tilt-card">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><rect x="6" y="8" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M16 4v4M16 24v4M4 16h2M26 16h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <div class="serv-num">// 02</div>
         <h3>Control de Acceso</h3>
         <p>Sistemas biométricos, tarjetas de proximidad, torniquetes y cerraduras electrónicas con registro en tiempo real.</p>
         <span class="serv-tag">Biométrico · Facial · Proximidad</span>
       </div>
       <div class="serv-card tilt-card">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4z" stroke="currentColor" stroke-width="1.5"/><path d="M16 10v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
         <div class="serv-num">// 03</div>
         <h3>Alarmas & Monitoreo</h3>
         <p>Alarmas de intrusión y pánico, sensores de movimiento y perímetro. Integración con centrales de monitoreo 24/7.</p>
         <span class="serv-tag">Monitoreo 24/7</span>
       </div>
       <div class="serv-card tilt-card">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:18px"><path d="M16 4l10 5v8c0 5-4 9-10 11C10 26 6 22 6 17V9l10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div class="serv-num">// 04</div>
         <h3>Consultoría Profesional</h3>
         <p>Diagnóstico de infraestructura, diseño de soluciones escalables y recomendaciones técnicas para cada operación.</p>
@@ -709,26 +696,13 @@
 <script>
   // ── CURSOR ──
   const cur = document.getElementById('cursor');
-  const dot = document.getElementById('curDot');
-  const corners = ['TL','TR','BL','BR'].map(id => document.getElementById('cur'+id));
-  let mx=0, my=0, cx=0, cy=0;
-  const GAP = 16;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cur.style.left = mx+'px'; cur.style.top = my+'px';
-    dot.style.left = mx+'px'; dot.style.top = my+'px';
-  });
-  (function animCorners() {
-    cx += (mx-cx)*0.1; cy += (my-cy)*0.1;
-    corners[0].style.left=(cx-GAP)+'px'; corners[0].style.top=(cy-GAP)+'px';
-    corners[1].style.left=(cx+GAP)+'px'; corners[1].style.top=(cy-GAP)+'px';
-    corners[2].style.left=(cx-GAP)+'px'; corners[2].style.top=(cy+GAP)+'px';
-    corners[3].style.left=(cx+GAP)+'px'; corners[3].style.top=(cy+GAP)+'px';
-    requestAnimationFrame(animCorners);
-  })();
+  const ring = document.getElementById('cursor-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+  (function animRing() { rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
   document.querySelectorAll('a, button, .tilt-card, .theme-toggle, .stack-item').forEach(el => {
-    el.addEventListener('mouseenter', () => corners.forEach(c => c.classList.add('expand')));
-    el.addEventListener('mouseleave', () => corners.forEach(c => c.classList.remove('expand')));
+    el.addEventListener('mouseenter', () => { cur.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cur.classList.remove('hover'); ring.classList.remove('hover'); });
   });
 
   // ── PARTICLES ──
